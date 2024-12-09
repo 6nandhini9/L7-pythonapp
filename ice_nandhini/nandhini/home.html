@@ -1,0 +1,94 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome {{ username }}</h1>
+    <form method="GET">
+        <input type="text" name="query" placeholder="Search products">
+        <select name="seasonal">
+            <option value="">All</option>
+            <option value="yes">Seasonal</option>
+            <option value="no">Non-Seasonal</option>
+        </select>
+        <input type="number" name="min_price" placeholder="Min Price" step="0.01">
+        <input type="number" name="max_price" placeholder="Max Price" step="0.01">
+        <button type="submit">Search</button>
+    </form>
+    <h2>Products</h2>
+    <ul>
+        {% for product in products %}
+            <li>
+                {{ product[1] }} - ${{ product[2] }}
+                <form method="POST" action="{{ url_for('add_to_cart') }}">
+                    <input type="hidden" name="product_id" value="{{ product[0] }}">
+                    <input type="number" name="quantity" min="1" value="1">
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('view_cart') }}">View Cart</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+   
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <h1>Welcome {{ username }}</h1>
+    <form method="GET">
+        <input type="text" name="query" placeholder="Search products" value="{{ request.args.get('query', '') }}">
+        <input type="number" name="min_price" placeholder="Min Price" value="{{ request.args.get('min_price', '') }}">
+        <input type="number" name="max_price" placeholder="Max Price" value="{{ request.args.get('max_price', '') }}">
+        <select name="seasonal">
+            <option value="">All</option>
+            <option value="yes" {% if request.args.get('seasonal') == 'yes' %}selected{% endif %}>Seasonal</option>
+            <option value="no" {% if request.args.get('seasonal') == 'no' %}selected{% endif %}>Non-Seasonal</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Products</h2>
+    <ul>
+        {% for product_id, product in products.items() %}
+            <li>
+                <strong>{{ product.product_name }}</strong> - ${{ product.price }}
+                <ul>
+                    {% if product.allergens %}
+                        <li><strong>Allergens:</strong>
+                            <ul>
+                                {% for allergen in product.allergens %}
+                                    <li>{{ allergen }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li>No allergens listed</li>
+                        <!-- Add allergens button -->
+                        <form method="POST" action="{{ url_for('add_allergen') }}">
+                            <input type="hidden" name="product_id" value="{{ product_id }}">
+                            <input type="text" name="allergen_name" placeholder="Add allergen" required>
+                            <button type="submit">Add Allergen</button>
+                        </form>
+                    {% endif %}
+                </ul>
+                <form method="POST" action="{{ url_for('add_to_cart') }}">
+                    <input type="hidden" name="product_id" value="{{ product_id }}">
+                    <input type="number" name="quantity" min="1" value="1">
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('view_cart') }}">View Cart</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>

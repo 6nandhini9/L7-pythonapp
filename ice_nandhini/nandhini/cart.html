@@ -1,0 +1,50 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+</head>
+<body>
+    <h2>Your Cart</h2>
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                {{ item[1] }} - {{ item[2] }} x ${{ item[3] }} = ${{ item[4] }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('home') }}">Back to Home</a>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <h1>Welcome {{ username }}</h1>
+    <h2>Your Cart</h2>
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                {{ item[1] }} - ${{ item[3] }} x {{ item[2] }} = ${{ item[3] * item[2] }}
+                
+                <!-- Remove button -->
+                <form method="POST" action="{{ url_for('view_cart') }}">
+                    <input type="hidden" name="cart_id" value="{{ item[0] }}">
+                    <button type="submit">Remove</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <!-- Display the total price -->
+    <h3>Total Price: ${{ total_price }}</h3>
+    
+    <a href="{{ url_for('home') }}">Continue Shopping</a>
+</body>
+</html>
+

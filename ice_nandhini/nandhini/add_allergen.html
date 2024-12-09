@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Add Allergen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Allergen to Product</h1>
+    <form method="POST" action="/add_allergen">
+        <!-- Input for Product ID -->
+        <label for="product_id">Product ID:</label>
+        <input type="number" id="product_id" name="product_id" required placeholder="Enter Product ID">
+        
+        <!-- Input for Allergen Name -->
+        <label for="allergen_name">Allergen Name:</label>
+        <input type="text" id="allergen_name" name="allergen_name" required placeholder="Enter Allergen Name">
+        
+        <!-- Submit Button -->
+        <button type="submit">Add Allergen</button>
+    </form>
+
+    <!-- Back Link -->
+    <a class="back-link" href="/home">Back to Home</a>
+</body>
+</html>
